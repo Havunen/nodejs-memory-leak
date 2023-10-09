@@ -1,0 +1,17 @@
+{
+  "name": "nodejs-memory-leak",
+  "version": "1.0.0",
+  "description": "",
+  "main": "test.js",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "start": "cross-env NODE_OPTIONS=--max-old-space-size=128 node --experimental-vm-modules ./test.js"
+  },
+  "dependencies": {
+    "cross-env": "^7.0.3"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
