@@ -4,14 +4,13 @@ async function link() {
     // Having a shared context leaks nodejs memory
     let context = createContext()
     const module = new SourceTextModule(`
-        // import foo from 'foo';
+        import foo from 'foo';
         
         export default {a: new Array(100000).fill('-')};
     `, {
         context,
         identifier: ''
     });
-
     const subModule = new SourceTextModule(`
         import asd from 'asd.json';
 
@@ -20,8 +19,6 @@ async function link() {
         context,
         identifier: 'foo'
     })
-
-
     const jsonModule = new SyntheticModule(
         ['default'],
         function () {
@@ -37,13 +34,10 @@ async function link() {
     await subModule.link(() => jsonModule)
     await module.link(() => subModule)
 
-
-
-
     await module.evaluate();
 
     // UN-COMMENT THIS LINE TO FIX THE LEAK?? wtf...
-    // context = null
+    context = null
 
     return module;
 }
